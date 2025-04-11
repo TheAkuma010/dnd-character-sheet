@@ -1,4 +1,4 @@
-## D&D 5e Character Sheet
+# D&D 5e Character Sheet
 
 ## Branch de Homologação/Testes (STAGING)
 
