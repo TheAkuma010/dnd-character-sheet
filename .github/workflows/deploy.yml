@@ -1,0 +1,46 @@
+name: Deploy Laravel App
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Adapte para a versão que você está usando
+
+      - name: Install dependencies
+        run: |
+          cd /var/www/ultimoinverno-app
+          npm install  # Instala as dependências de JS (Vite)
+
+      - name: Build assets with Vite
+        run: |
+          cd /var/www/ultimoinverno-app
+          npm run build  # Compila os assets (JS/CSS) com Vite
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@15.229.166.99 << 'EOF'
+            cd /var/www/ultimoinverno-app
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+          EOF
