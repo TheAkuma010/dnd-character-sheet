@@ -36,11 +36,13 @@
 
             <div class="bg-white shadow sm:rounded-lg p-4">
                 @forelse ($spells as $spell)
+                <x-card>
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold text-indigo-700">{{ $spell->name }} (Nível
                             {{ $spell->level }})</h3>
                         <p class="text-gray-700">{{ Str::limit($spell->description, 200) }}</p>
                     </div>
+                </x-card>
                 @empty
                     <p>Nenhuma magia encontrada.</p>
                 @endforelse
