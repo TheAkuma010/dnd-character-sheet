@@ -13,7 +13,7 @@ class CharacterController extends Controller
             ? Character::all()
             : auth()->user()->characters;
             
-        return view('characters.index', compact('characters'));
+        return view('characters.index', ['characters' => $characters]);
     }
     public function create()
     {

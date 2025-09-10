@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\Spell;
+use App\Models\Spell;
 
 class SpellController extends Controller
 {
